@@ -1,5 +1,6 @@
 import { Link, useHistory } from 'react-router-dom';
 import useStyles from './layout.style';
+import logo from '../../../assets/images/logo.svg';
 
 function Header() {
   const classes = useStyles();
@@ -13,7 +14,7 @@ function Header() {
     <header className={classes.header}>
       <nav className={classes.nav}>
         <Link to="/" className={classes.logoLink}>
-          <img className={classes.logoImage} src="logo" alt="Logo made from an F letter" />
+          <img className={classes.logoImage} src={logo} alt="Logo made from an F letter" />
         </Link>
         <button className={classes.signInButton} onClick={redirectToSignIn}>
           Sign in

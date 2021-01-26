@@ -1,5 +1,5 @@
 import { Switch, Route } from 'react-router-dom';
-import { Home, SignIn } from '../components/pages';
+import { Home, SignIn, SignUp } from '../components/pages';
 
 function Routes() {
   return (
@@ -9,6 +9,9 @@ function Routes() {
       </Route>
       <Route exact path="/sign-in">
         <SignIn />
+      </Route>
+      <Route exact path="/sign-up">
+        <SignUp />
       </Route>
     </Switch>
   );

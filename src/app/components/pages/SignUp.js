@@ -1,13 +1,13 @@
 import useStyles from './pages.style';
 
-function SignIn() {
+function SignUp() {
   const classes = useStyles();
 
   return (
     <main className={classes.main}>
-      <h1>Sign in here</h1>
+      <h1>Sign up here</h1>
     </main>
   );
 }
 
-export default SignIn;
+export default SignUp;
