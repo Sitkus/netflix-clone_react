@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import heroImg from '../../../assets/images/hero.jpg';
 
 const useStyles = makeStyles(theme => ({
   hero: {
@@ -6,7 +7,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: "url('https://i.pinimg.com/originals/12/16/8e/12168e11cf1dacadc00865fe19e8361b.jpg')",
+    backgroundImage: `url('${heroImg}')`,
     backgroundPosition: 'center center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',

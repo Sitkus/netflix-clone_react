@@ -1,18 +1,20 @@
 import useStyles from './Movie.style';
-import movieImage from '../../../assets/images/movie.png';
 
-function Movie({ title, description }) {
+import { Button } from '../helpers';
+
+function Movie({ title, description, image }) {
   const classes = useStyles();
 
   return (
     <li className={classes.movie}>
-      <img className={classes.movieImage} src={movieImage} alt="text" />
+      <img className={classes.movieImage} src={image} alt="text" />
       <article className={classes.movieContent}>
-        <section className={classes.movieDescription}>
-          <h2 className={classes.title}>{title}</h2>
-          <p className={classes.aboutMovie}>{description}</p>
+        <section className={classes.movieInsideTop}>
+          <h2 className={classes.movieTitle}>{title}</h2>
+          <p className={classes.movieDescription}>{description}</p>
         </section>
-        <button className={classes.favoriteButton}>Favorite</button>
+
+        <Button className={classes.favoriteButton}>Favorite</Button>
       </article>
     </li>
   );

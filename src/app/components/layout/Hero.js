@@ -1,6 +1,8 @@
 import { useHistory } from 'react-router-dom';
 import useStyles from './Hero.style';
 
+import { Button } from '../helpers';
+
 function Hero() {
   let history = useHistory();
   const classes = useStyles();
@@ -12,7 +14,8 @@ function Hero() {
   return (
     <article className={classes.hero}>
       <h1 className={classes.heroTitle}>Want more content?</h1>
-      <button onClick={redirectToRegisterPage}>Get Access</button>
+
+      <Button onClick={redirectToRegisterPage}>Get Access</Button>
     </article>
   );
 }
