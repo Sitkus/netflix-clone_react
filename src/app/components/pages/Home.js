@@ -17,10 +17,34 @@ function Home() {
 
       console.log(fetchedMovies);
       setMovies(fetchedMovies);
+      saveMoviesToLocalStorage(fetchedMovies);
     }
 
-    fetchMovies();
+    const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
+
+    if (localStorageMovies) {
+      setMovies(localStorageMovies);
+    } else {
+      fetchMovies();
+    }
   }, []);
+
+  const toggleFavorite = movieId => {
+    const updatedMovies = movies.map(movie => {
+      if (movieId === movie.id) {
+        movie.favorite = !movie.favorite;
+      }
+
+      return movie;
+    });
+
+    setMovies(updatedMovies);
+    saveMoviesToLocalStorage(updatedMovies);
+  };
+
+  const saveMoviesToLocalStorage = updatedMovies => {
+    localStorage.setItem('movies', JSON.stringify(updatedMovies));
+  };
 
   return (
     <main className={classes.main}>
@@ -28,7 +52,14 @@ function Home() {
       <ul className={classes.movies}>
         {movies ? (
           movies.map(movie => (
-            <Movie key={movie.id} image={movie.image} title={movie.title} description={movie.description} />
+            <Movie
+              favorite={movie.favorite || false}
+              toggleFavorite={() => toggleFavorite(movie.id)}
+              key={movie.id}
+              image={movie.image}
+              title={movie.title}
+              description={movie.description}
+            />
           ))
         ) : (
           <p>Loading...</p>

@@ -8,9 +8,6 @@ const useStyles = makeStyles(theme => ({
     margin: '20px 50px',
     backgroundColor: theme.palette.primary.light,
     height: 'auto'
-    // '&:nth-child(3n)': {
-    //   marginRight: 0
-    // }
   },
   movieImage: {
     width: '100%',
@@ -31,11 +28,21 @@ const useStyles = makeStyles(theme => ({
   },
   movieDescription: {
     marginBottom: '20px'
-    //
   },
   favoriteButton: {
     alignSelf: 'flex-end',
     padding: '5px 20px'
+  },
+  favorite: {
+    //
+  },
+  remove: {
+    boxShadow: `inset 0 0 0 2px ${theme.palette.secondary.main}`,
+    background: 'none',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.main,
+      color: 'white'
+    }
   }
 }));
 

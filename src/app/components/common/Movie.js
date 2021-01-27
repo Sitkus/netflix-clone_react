@@ -2,7 +2,7 @@ import useStyles from './Movie.style';
 
 import { Button } from '../helpers';
 
-function Movie({ title, description, image }) {
+function Movie({ title, description, image, favorite, toggleFavorite }) {
   const classes = useStyles();
 
   return (
@@ -14,7 +14,12 @@ function Movie({ title, description, image }) {
           <p className={classes.movieDescription}>{description}</p>
         </section>
 
-        <Button className={classes.favoriteButton}>Favorite</Button>
+        <Button
+          onClick={toggleFavorite}
+          className={`${classes.favoriteButton} ${favorite ? classes.remove : classes.favorite}`}
+        >
+          {favorite ? 'Remove' : 'Favorite'}
+        </Button>
       </article>
     </li>
   );
