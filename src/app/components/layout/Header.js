@@ -1,5 +1,5 @@
 import { Link, useHistory } from 'react-router-dom';
-import useStyles from './layout.style';
+import useStyles from './Header.style';
 import logo from '../../../assets/images/logo.svg';
 
 function Header() {

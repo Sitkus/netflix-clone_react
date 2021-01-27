@@ -1,7 +1,9 @@
-import useStyles from './pages.style';
+import { useState, useEffect } from 'react';
+import useStyles from './Home.style';
 
 import { Hero } from '../layout';
 import { Movie } from '../common';
+import { Button } from '../helpers';
 
 function Home() {
   const classes = useStyles();
@@ -33,6 +35,7 @@ function Home() {
           description="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laborum illo eos"
         />
       </ul>
+      <Button className={classes.button}>Get More Content</Button>
     </main>
   );
 }

@@ -1,5 +1,5 @@
 import { useHistory } from 'react-router-dom';
-import useStyles from './layout.style';
+import useStyles from './Hero.style';
 
 function Hero() {
   let history = useHistory();

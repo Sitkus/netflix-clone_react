@@ -1,11 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-  /**
-   * Main
-   */
   main: {
-    minHeight: 'calc(100vh - 140px)'
+    minHeight: 'calc(100vh - 140px)',
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    width: '100%'
   },
   movies: {
     display: 'flex',
@@ -13,6 +14,10 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'stretch',
     flexWrap: 'wrap',
     padding: '30px 0'
+  },
+  button: {
+    alignSelf: 'center',
+    marginBottom: '50px'
   }
 }));
 

@@ -1,5 +1,5 @@
 import { CreditCardLogo } from '../helpers';
-import useStyles from './layout.style';
+import useStyles from './Footer.style';
 
 import visa from '../../../assets/creditcards/visa_card.svg';
 import mastercard from '../../../assets/creditcards/master_card.svg';
