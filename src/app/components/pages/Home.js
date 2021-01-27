@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import useStyles from './Home.style';
+import useStyles from './pages.style';
 
 import { Hero } from '../layout';
 import { Movie } from '../common';
@@ -11,14 +11,13 @@ function Home() {
   const [url, setUrl] = useState('https://academy-video-api.herokuapp.com/content/free-items');
 
   useEffect(() => {
-    async function fetchMovies() {
+    const fetchMovies = async () => {
       const response = await fetch(url);
       const fetchedMovies = await response.json();
 
-      console.log(fetchedMovies);
       setMovies(fetchedMovies);
       saveMoviesToLocalStorage(fetchedMovies);
-    }
+    };
 
     const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
 
@@ -29,7 +28,7 @@ function Home() {
     }
   }, []);
 
-  const toggleFavorite = movieId => {
+  const toggleMovieFavorite = movieId => {
     const updatedMovies = movies.map(movie => {
       if (movieId === movie.id) {
         movie.favorite = !movie.favorite;
@@ -54,7 +53,7 @@ function Home() {
           movies.map(movie => (
             <Movie
               favorite={movie.favorite || false}
-              toggleFavorite={() => toggleFavorite(movie.id)}
+              toggleFavorite={() => toggleMovieFavorite(movie.id)}
               key={movie.id}
               image={movie.image}
               title={movie.title}

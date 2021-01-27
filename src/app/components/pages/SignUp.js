@@ -1,4 +1,4 @@
-import useStyles from './SignUp.style';
+import useStyles from './pages.style';
 
 function SignUp() {
   const classes = useStyles();
