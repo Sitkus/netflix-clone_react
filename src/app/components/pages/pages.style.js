@@ -8,6 +8,9 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     width: '100%'
   },
+  mainWithForm: {
+    alignItems: 'center'
+  },
   movies: {
     display: 'flex',
     justifyContent: 'space-between',
