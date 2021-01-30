@@ -1,9 +1,12 @@
-import { LocalGasStation } from '@material-ui/icons';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import useStyles from './pages.style';
+import { Button } from '../helpers';
 
-function SignIn() {
+function SignIn({ checkIfLoggedIn }) {
+  const history = useHistory();
   const classes = useStyles();
+
   const [errorMessage, setErrorMessage] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -37,6 +40,10 @@ function SignIn() {
 
     if (response.ok) {
       saveTokenToLocalStorage(data.token);
+
+      checkIfLoggedIn();
+
+      redirectToHome();
     } else {
       showError(data.message);
     }
@@ -44,6 +51,10 @@ function SignIn() {
 
   const saveTokenToLocalStorage = token => {
     localStorage.setItem('token', token);
+  };
+
+  const redirectToHome = () => {
+    history.push('/');
   };
 
   const showError = msg => {
@@ -56,9 +67,12 @@ function SignIn() {
 
   return (
     <main className={`${classes.main} ${classes.mainWithForm}`}>
-      <form method="POST" onSubmit={checkIfInputsAreNotEmpty}>
-        <label htmlFor="username">Username:</label>
+      <form className={classes.form} method="POST" onSubmit={checkIfInputsAreNotEmpty}>
+        <label className={classes.label} htmlFor="username">
+          Username:
+        </label>
         <input
+          className={classes.input}
           onChange={e => setUsername(e.target.value)}
           type="text"
           name="username"
@@ -66,8 +80,11 @@ function SignIn() {
           placeholder="Insert your username"
         />
 
-        <label htmlFor="password">Password:</label>
+        <label className={classes.label} htmlFor="password">
+          Password:
+        </label>
         <input
+          className={classes.input}
           onChange={e => setPassword(e.target.value)}
           type="password"
           name="password"
@@ -75,9 +92,11 @@ function SignIn() {
           placeholder="*******"
         />
 
-        {errorMessage ? <p>{errorMessage}</p> : null}
+        {errorMessage ? <p className={classes.error}>{errorMessage}</p> : null}
 
-        <button type="submit">Sign In</button>
+        <Button className={classes.formButton} type="submit">
+          Sign In
+        </Button>
       </form>
     </main>
   );

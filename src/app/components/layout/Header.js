@@ -4,12 +4,22 @@ import logo from '../../../assets/images/logo.svg';
 
 import { Button } from '../helpers';
 
-function Header() {
+function Header({ isLoggedIn, setIsLoggedIn }) {
   const classes = useStyles();
   let history = useHistory();
 
   const redirectToSignIn = () => {
     history.push('/sign-in');
+  };
+
+  const logout = () => {
+    deleteTokenFromLocalStorage();
+
+    setIsLoggedIn(false);
+  };
+
+  const deleteTokenFromLocalStorage = () => {
+    localStorage.removeItem('token');
   };
 
   return (
@@ -18,7 +28,7 @@ function Header() {
         <Link to="/" className={classes.logoLink}>
           <img className={classes.logoImage} src={logo} alt="Logo made from an F letter" />
         </Link>
-        <Button onClick={redirectToSignIn}>Sign in</Button>
+        {!isLoggedIn ? <Button onClick={redirectToSignIn}>Sign in</Button> : <Button onClick={logout}>Logout</Button>}
       </nav>
     </header>
   );

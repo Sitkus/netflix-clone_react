@@ -1,12 +1,30 @@
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+
 import { Header, Footer } from './components/layout';
 import Routes from './routes';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    checkIfLoggedIn();
+  }, [isLoggedIn]);
+
+  const checkIfLoggedIn = () => {
+    const tokenFromLocalStorage = localStorage.getItem('token');
+
+    if (tokenFromLocalStorage) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  };
+
   return (
     <Router>
-      <Header />
-      <Routes />
+      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      <Routes checkIfLoggedIn={checkIfLoggedIn} />
       <Footer />
     </Router>
   );
