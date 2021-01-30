@@ -24,7 +24,7 @@ function App() {
   return (
     <Router>
       <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      <Routes checkIfLoggedIn={checkIfLoggedIn} />
+      <Routes isLoggedIn={isLoggedIn} checkIfLoggedIn={checkIfLoggedIn} />
       <Footer />
     </Router>
   );

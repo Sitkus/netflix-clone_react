@@ -1,18 +1,19 @@
 import { Switch, Route } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
 import { Home, SignIn, SignUp } from '../components/pages';
 
-function Routes({ checkIfLoggedIn }) {
+function Routes({ checkIfLoggedIn, isLoggedIn }) {
   return (
     <Switch>
       <Route exact path="/">
         <Home />
       </Route>
-      <Route exact path="/sign-in">
+      <PrivateRoute isLoggedIn={isLoggedIn} exact path="/sign-in">
         <SignIn checkIfLoggedIn={checkIfLoggedIn} />
-      </Route>
-      <Route exact path="/sign-up">
+      </PrivateRoute>
+      <PrivateRoute isLoggedIn={isLoggedIn} exact="exact" path="/sign-up">
         <SignUp />
-      </Route>
+      </PrivateRoute>
     </Switch>
   );
 }
