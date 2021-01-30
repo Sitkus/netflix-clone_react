@@ -8,19 +8,19 @@ function SignIn({ checkIfLoggedIn }) {
   const classes = useStyles();
 
   const [errorMessage, setErrorMessage] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [userDetails, setUserDetails] = useState({
+    username: '',
+    password: ''
+  });
 
   const checkIfInputsAreNotEmpty = e => {
+    const username = userDetails.username;
+    const password = userDetails.password;
+
     removeError();
 
     if (username && password) {
-      const userData = {
-        username,
-        password
-      };
-
-      login(userData);
+      login();
     } else {
       showError('Please fill in the fields');
     }
@@ -28,13 +28,13 @@ function SignIn({ checkIfLoggedIn }) {
     e.preventDefault();
   };
 
-  const login = async userData => {
+  const login = async () => {
     const response = await fetch('https://academy-video-api.herokuapp.com/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(userData)
+      body: JSON.stringify(userDetails)
     });
     const data = await response.json();
 
@@ -57,6 +57,10 @@ function SignIn({ checkIfLoggedIn }) {
     history.push('/');
   };
 
+  const saveInputData = e => {
+    setUserDetails(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   const showError = msg => {
     setErrorMessage(msg);
   };
@@ -73,7 +77,7 @@ function SignIn({ checkIfLoggedIn }) {
         </label>
         <input
           className={classes.input}
-          onChange={e => setUsername(e.target.value)}
+          onChange={e => saveInputData(e)}
           type="text"
           name="username"
           id="username"
@@ -85,14 +89,14 @@ function SignIn({ checkIfLoggedIn }) {
         </label>
         <input
           className={classes.input}
-          onChange={e => setPassword(e.target.value)}
+          onChange={e => saveInputData(e)}
           type="password"
           name="password"
           id="password"
           placeholder="*******"
         />
 
-        {errorMessage ? <p className={classes.error}>{errorMessage}</p> : null}
+        {errorMessage && <p className={classes.error}>{errorMessage}</p>}
 
         <Button className={classes.formButton} type="submit">
           Sign In

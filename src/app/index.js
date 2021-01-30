@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Header, Footer } from './components/layout';
 import Routes from './routes';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   useEffect(() => {
     checkIfLoggedIn();
@@ -15,16 +17,16 @@ function App() {
     const tokenFromLocalStorage = localStorage.getItem('token');
 
     if (tokenFromLocalStorage) {
-      setIsLoggedIn(true);
+      dispatch({ type: 'LOGIN' });
     } else {
-      setIsLoggedIn(false);
+      dispatch({ type: 'LOGOUT' });
     }
   };
 
   return (
     <Router>
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      <Routes isLoggedIn={isLoggedIn} checkIfLoggedIn={checkIfLoggedIn} />
+      <Header />
+      <Routes checkIfLoggedIn={checkIfLoggedIn} />
       <Footer />
     </Router>
   );

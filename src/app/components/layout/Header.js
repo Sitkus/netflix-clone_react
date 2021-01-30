@@ -1,10 +1,13 @@
 import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
 import useStyles from './Header.style';
 import logo from '../../../assets/images/logo.svg';
-
 import { Button } from '../helpers';
 
-function Header({ isLoggedIn, setIsLoggedIn }) {
+function Header() {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const classes = useStyles();
   let history = useHistory();
 
@@ -15,7 +18,7 @@ function Header({ isLoggedIn, setIsLoggedIn }) {
   const logout = () => {
     deleteTokenFromLocalStorage();
 
-    setIsLoggedIn(false);
+    dispatch({ type: 'LOGOUT' });
   };
 
   const deleteTokenFromLocalStorage = () => {

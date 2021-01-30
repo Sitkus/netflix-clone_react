@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import useStyles from './pages.style';
+import { useSelector } from 'react-redux';
 
 import { Hero } from '../layout';
 import { Movie } from '../common';
@@ -7,6 +8,9 @@ import { Button } from '../helpers';
 
 function Home() {
   const classes = useStyles();
+
+  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+
   const [movies, setMovies] = useState([]);
   const [url, setUrl] = useState('https://academy-video-api.herokuapp.com/content/free-items');
 
@@ -41,13 +45,14 @@ function Home() {
     saveMoviesToLocalStorage(updatedMovies);
   };
 
-  const saveMoviesToLocalStorage = updatedMovies => {
-    localStorage.setItem('movies', JSON.stringify(updatedMovies));
+  const saveMoviesToLocalStorage = movies => {
+    localStorage.setItem('movies', JSON.stringify(movies));
   };
 
   return (
     <main className={classes.main}>
-      <Hero />
+      {!isLoggedIn && <Hero />}
+
       <ul className={classes.movies}>
         {movies ? (
           movies.map(movie => (
