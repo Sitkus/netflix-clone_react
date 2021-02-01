@@ -7,7 +7,7 @@ import { Button } from '../helpers';
 
 function Header() {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const classes = useStyles();
   let history = useHistory();
 
@@ -16,13 +16,14 @@ function Header() {
   };
 
   const logout = () => {
-    deleteTokenFromLocalStorage();
+    clearLocalStorage();
 
     dispatch({ type: 'LOGOUT' });
   };
 
-  const deleteTokenFromLocalStorage = () => {
+  const clearLocalStorage = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('movies');
   };
 
   return (

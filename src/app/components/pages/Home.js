@@ -9,43 +9,75 @@ import { Button } from '../helpers';
 function Home() {
   const classes = useStyles();
 
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [movies, setMovies] = useState([]);
-  const [url, setUrl] = useState('https://academy-video-api.herokuapp.com/content/free-items');
+  const [favoriteMovies, setFavoriteMovies] = useState([]);
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const response = await fetch(url);
-      const fetchedMovies = await response.json();
-
-      setMovies(fetchedMovies);
-      saveMoviesToLocalStorage(fetchedMovies);
-    };
-
+    const token = localStorage.getItem('token');
     const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
+
+    const fetchMovies = async (urlToFetchFrom) => {
+      const response = await fetch(urlToFetchFrom, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token ?? null
+        }
+      });
+      const data = await response.json();
+
+      setMovies(data);
+      saveMoviesToLocalStorage(data);
+    };
 
     if (localStorageMovies) {
       setMovies(localStorageMovies);
+    } else if (token) {
+      fetchMovies('https://academy-video-api.herokuapp.com/content/items');
     } else {
-      fetchMovies();
+      fetchMovies('https://academy-video-api.herokuapp.com/content/free-items');
     }
-  }, []);
 
-  const toggleMovieFavorite = movieId => {
-    const updatedMovies = movies.map(movie => {
-      if (movieId === movie.id) {
-        movie.favorite = !movie.favorite;
+    checkForAnyFavoriteMovies();
+  }, [isLoggedIn]);
+
+  const checkForAnyFavoriteMovies = () => {
+    //
+  };
+
+  const toggleMovieFavorite = (favoredMovie) => {
+    favoredMovie.favorite = !favoredMovie.favorite;
+
+    const favoriteMovieExist = favoriteMovies.indexOf(favoredMovie.id);
+
+    if (favoriteMovieExist > -1) {
+      favoriteMovies.splice(favoriteMovieExist, 1);
+    } else {
+      favoriteMovies.push(favoredMovie.id);
+    }
+
+    setFavoriteMovies(favoriteMovies);
+
+    const updatedMovies = movies.map((currentMovie) => {
+      if (currentMovie.id === favoredMovie.id) {
+        currentMovie = favoredMovie;
       }
 
-      return movie;
+      return currentMovie;
     });
 
     setMovies(updatedMovies);
+    saveFavoriteMoviesToLocalStorage();
     saveMoviesToLocalStorage(updatedMovies);
   };
 
-  const saveMoviesToLocalStorage = movies => {
+  const saveFavoriteMoviesToLocalStorage = () => {
+    console.log(favoriteMovies);
+    localStorage.setItem('favorite-movies', JSON.stringify(favoriteMovies));
+  };
+
+  const saveMoviesToLocalStorage = (movies) => {
     localStorage.setItem('movies', JSON.stringify(movies));
   };
 
@@ -55,10 +87,10 @@ function Home() {
 
       <ul className={classes.movies}>
         {movies ? (
-          movies.map(movie => (
+          movies.map((movie) => (
             <Movie
               favorite={movie.favorite || false}
-              toggleFavorite={() => toggleMovieFavorite(movie.id)}
+              toggleFavorite={() => toggleMovieFavorite(movie)}
               key={movie.id}
               image={movie.image}
               title={movie.title}

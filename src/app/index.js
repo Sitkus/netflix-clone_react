@@ -7,11 +7,10 @@ import Routes from './routes';
 
 function App() {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
 
   useEffect(() => {
     checkIfLoggedIn();
-  }, [isLoggedIn]);
+  }, []);
 
   const checkIfLoggedIn = () => {
     const tokenFromLocalStorage = localStorage.getItem('token');
@@ -26,7 +25,7 @@ function App() {
   return (
     <Router>
       <Header />
-      <Routes checkIfLoggedIn={checkIfLoggedIn} />
+      <Routes />
       <Footer />
     </Router>
   );

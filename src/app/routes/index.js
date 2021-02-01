@@ -2,7 +2,7 @@ import { Switch, Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import { Home, SignIn, SignUp } from '../components/pages';
 
-function Routes({ checkIfLoggedIn }) {
+function Routes() {
   return (
     <Switch>
       <Route exact path="/">
@@ -10,7 +10,7 @@ function Routes({ checkIfLoggedIn }) {
       </Route>
 
       <PrivateRoute exact path="/sign-in">
-        <SignIn checkIfLoggedIn={checkIfLoggedIn} />
+        <SignIn />
       </PrivateRoute>
 
       <PrivateRoute exact="exact" path="/sign-up">

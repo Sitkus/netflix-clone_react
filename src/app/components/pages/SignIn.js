@@ -1,19 +1,19 @@
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import useStyles from './pages.style';
 import { Button } from '../helpers';
 
-function SignIn({ checkIfLoggedIn }) {
-  const history = useHistory();
+function SignIn() {
+  const dispatch = useDispatch();
   const classes = useStyles();
-
   const [errorMessage, setErrorMessage] = useState('');
   const [userDetails, setUserDetails] = useState({
     username: '',
     password: ''
   });
 
-  const checkIfInputsAreNotEmpty = e => {
+  const checkIfInputsAreNotEmpty = (e) => {
     const username = userDetails.username;
     const password = userDetails.password;
 
@@ -40,28 +40,27 @@ function SignIn({ checkIfLoggedIn }) {
 
     if (response.ok) {
       saveTokenToLocalStorage(data.token);
+      clearMoviesFromLocalStorage();
 
-      checkIfLoggedIn();
-
-      redirectToHome();
+      dispatch({ type: 'LOGIN' });
     } else {
-      showError(data.message);
+      showError('Please check the login details');
     }
   };
 
-  const saveTokenToLocalStorage = token => {
+  const saveTokenToLocalStorage = (token) => {
     localStorage.setItem('token', token);
   };
 
-  const redirectToHome = () => {
-    history.push('/');
+  const clearMoviesFromLocalStorage = () => {
+    localStorage.removeItem('movies');
   };
 
-  const saveInputData = e => {
-    setUserDetails(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const saveInputData = (e) => {
+    setUserDetails((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const showError = msg => {
+  const showError = (msg) => {
     setErrorMessage(msg);
   };
 
@@ -77,7 +76,7 @@ function SignIn({ checkIfLoggedIn }) {
         </label>
         <input
           className={classes.input}
-          onChange={e => saveInputData(e)}
+          onChange={(e) => saveInputData(e)}
           type="text"
           name="username"
           id="username"
@@ -89,7 +88,7 @@ function SignIn({ checkIfLoggedIn }) {
         </label>
         <input
           className={classes.input}
-          onChange={e => saveInputData(e)}
+          onChange={(e) => saveInputData(e)}
           type="password"
           name="password"
           id="password"

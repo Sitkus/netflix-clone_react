@@ -9,10 +9,10 @@ function authReducer(state = initialState, action) {
 
   switch (type) {
     case LOGIN: {
-      return { ...state, isLoggedIn: true };
+      return { isLoggedIn: true };
     }
     case LOGOUT: {
-      return { ...state, isLoggedIn: false };
+      return { isLoggedIn: false };
     }
     default:
       return state;
