@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   main: {
     minHeight: 'calc(100vh - 140px)',
     display: 'flex',
@@ -57,6 +57,34 @@ const useStyles = makeStyles(theme => ({
     flex: '0 0 100%',
     marginBottom: '20px',
     color: theme.palette.secondary.main
+  },
+
+  /**
+   * Movies
+   */
+  movieImage: {
+    //
+  },
+  movieContent: {
+    //
+  },
+  movieInsideTop: {
+    //
+  },
+  movieTitle: {
+    //
+  },
+  movieDescription: {
+    //
+  },
+  favoriteButton: {
+    //
+  },
+  remove: {
+    //
+  },
+  favorite: {
+    //
   }
 }));
 

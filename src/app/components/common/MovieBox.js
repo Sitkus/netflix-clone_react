@@ -1,12 +1,11 @@
-import useStyles from './Movie.style';
-
+import useStyles from './MovieBox.style';
 import { Button } from '../helpers';
 
-function Movie({ title, description, image, favorite, toggleFavorite }) {
+function MovieBox({ title, description, image, favorite, toggleFavorite, clickOnMovie }) {
   const classes = useStyles();
 
   return (
-    <li className={classes.movie}>
+    <li onClick={clickOnMovie} className={classes.movie}>
       <img className={classes.movieImage} src={image} alt="text" />
       <article className={classes.movieContent}>
         <section className={classes.movieInsideTop}>
@@ -25,4 +24,4 @@ function Movie({ title, description, image, favorite, toggleFavorite }) {
   );
 }
 
-export default Movie;
+export default MovieBox;

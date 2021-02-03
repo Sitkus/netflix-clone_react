@@ -1,6 +1,7 @@
 import { Switch, Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
-import { Home, SignIn, SignUp } from '../components/pages';
+import NotLoggedIn from './NotLoggedIn';
+import { Home, SignIn, SignUp, Movie } from '../components/pages';
 
 function Routes() {
   return (
@@ -9,12 +10,16 @@ function Routes() {
         <Home />
       </Route>
 
-      <PrivateRoute exact path="/sign-in">
+      <NotLoggedIn exact path="/sign-in">
         <SignIn />
-      </PrivateRoute>
+      </NotLoggedIn>
 
-      <PrivateRoute exact="exact" path="/sign-up">
+      <NotLoggedIn exact={true} path="/sign-up">
         <SignUp />
+      </NotLoggedIn>
+
+      <PrivateRoute exact={true} path="/movie/:id">
+        <Movie />
       </PrivateRoute>
 
       <Route path="*">

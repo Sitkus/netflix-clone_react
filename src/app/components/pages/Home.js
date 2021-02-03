@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import useStyles from './pages.style';
 import { useSelector } from 'react-redux';
 
 import { Hero } from '../layout';
-import { Movie } from '../common';
+import { MovieBox } from '../common';
 import { Button } from '../helpers';
 
 function Home() {
+  let history = useHistory();
   const classes = useStyles();
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -39,12 +41,29 @@ function Home() {
       fetchMovies('https://academy-video-api.herokuapp.com/content/free-items');
     }
 
-    checkForAnyFavoriteMovies();
+    // checkForAnyFavoriteMovies();
   }, [isLoggedIn]);
 
-  const checkForAnyFavoriteMovies = () => {
-    //
-  };
+  // Stuck here
+  // const checkForAnyFavoriteMovies = () => {
+  //   const favoriteMoviesFromLocalStorage = JSON.parse(localStorage.getItem('favorite-movies'));
+  //   const moviesFromLocalStorage = JSON.parse(localStorage.getItem('movies'));
+
+  //   if (favoriteMoviesFromLocalStorage && moviesFromLocalStorage) {
+  //     const updatedMovies = moviesFromLocalStorage.map((currentMovie) => {
+  //       const movieExistsInCurrentMovie = favoriteMoviesFromLocalStorage.indexOf(currentMovie.id);
+
+  //       if (movieExistsInCurrentMovie > -1) {
+  //         currentMovie.favorite = true;
+  //       }
+
+  //       return currentMovie;
+  //     });
+
+  //     setMovies(updatedMovies);
+  //     setFavoriteMovies(favoriteMoviesFromLocalStorage);
+  //   }
+  // };
 
   const toggleMovieFavorite = (favoredMovie) => {
     favoredMovie.favorite = !favoredMovie.favorite;
@@ -81,6 +100,12 @@ function Home() {
     localStorage.setItem('movies', JSON.stringify(movies));
   };
 
+  const openChosenMovie = (e, movieId) => {
+    if (e.target.type !== 'button') {
+      history.push(`/movie/${movieId}`);
+    }
+  };
+
   return (
     <main className={classes.main}>
       {!isLoggedIn && <Hero />}
@@ -88,7 +113,8 @@ function Home() {
       <ul className={classes.movies}>
         {movies ? (
           movies.map((movie) => (
-            <Movie
+            <MovieBox
+              clickOnMovie={(e) => openChosenMovie(e, movie.id)}
               favorite={movie.favorite || false}
               toggleFavorite={() => toggleMovieFavorite(movie)}
               key={movie.id}

@@ -1,13 +1,14 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   movie: {
     display: 'flex',
     flexDirection: 'column',
     flex: '0 0 calc(100% / 3 - 100px)',
     margin: '20px 50px',
     backgroundColor: theme.palette.primary.light,
-    height: 'auto'
+    height: 'auto',
+    cursor: 'pointer'
   },
   movieImage: {
     width: '100%',
@@ -21,6 +22,9 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
     justifyContent: 'space-between',
     padding: '10px 20px'
+  },
+  movieInsideTop: {
+    flex: '0 0 100%'
   },
   movieTitle: {
     flex: '0 0 100%',
