@@ -2,11 +2,18 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   main: {
-    minHeight: 'calc(100vh - 140px)',
+    minHeight: 'calc(100vh - 210px)',
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+    '@media screen and (min-width: 768px)': {
+      minHeight: 'calc(100vh - 140px)',
+      padding: '0 40px'
+    },
+    '@media screen and (min-width: 1200px)': {
+      //
+    }
   },
   mainWithForm: {
     alignItems: 'center'

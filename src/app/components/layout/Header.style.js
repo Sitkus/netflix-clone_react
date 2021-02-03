@@ -1,13 +1,16 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   header: {
     display: 'flex',
     backgroundColor: theme.palette.primary.light,
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '70px',
-    padding: '0 20px'
+    padding: '0 20px',
+    '@media screen and (min-width: 768px)': {
+      padding: '0 40px'
+    }
   },
   nav: {
     display: 'flex',

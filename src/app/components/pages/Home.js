@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './pages.style';
 import { useSelector } from 'react-redux';
@@ -15,23 +15,33 @@ function Home() {
   const [movies, setMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
-
-    const fetchMovies = async (urlToFetchFrom) => {
+  const fetchMovies = useCallback(async (urlToFetchFrom) => {
+    try {
       const response = await fetch(urlToFetchFrom, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: token ?? null
+          Authorization: localStorage.getItem('token') ?? null
         }
       });
       const data = await response.json();
 
+      if (!response.ok) {
+        throw new Error('Something went wrong...');
+      }
+
       setMovies(data);
       saveMoviesToLocalStorage(data);
-    };
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+      console.log('Finally');
+    }
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
 
     if (localStorageMovies) {
       setMovies(localStorageMovies);
@@ -40,9 +50,8 @@ function Home() {
     } else {
       fetchMovies('https://academy-video-api.herokuapp.com/content/free-items');
     }
-
     // checkForAnyFavoriteMovies();
-  }, [isLoggedIn]);
+  }, [fetchMovies]);
 
   // Stuck here
   // const checkForAnyFavoriteMovies = () => {
