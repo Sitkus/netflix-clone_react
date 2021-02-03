@@ -4,14 +4,13 @@ const useStyles = makeStyles((theme) => ({
   movie: {
     display: 'flex',
     flexDirection: 'column',
-    margin: '20px 50px',
+    margin: '20px 0px',
     backgroundColor: theme.palette.primary.light,
     width: '100%',
     height: 'auto',
     cursor: 'pointer',
     '@media screen and (min-width: 600px)': {
       flex: '0 0 calc(100% / 2 - 40px / 2)',
-      margin: '20px 0',
       marginRight: '40px',
       '&:nth-child(2n)': {
         marginRight: 0
