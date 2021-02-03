@@ -16,7 +16,9 @@ const useStyles = makeStyles((theme) => ({
   iframe: {
     width: '70%',
     height: '70%',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    outline: `10px solid ${theme.palette.primary.light}`,
+    backgroundCOlor: theme.palette.primary.main
   }
 }));
 

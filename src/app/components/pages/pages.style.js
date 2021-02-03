@@ -8,8 +8,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     width: '100%',
     '@media screen and (min-width: 768px)': {
-      minHeight: 'calc(100vh - 140px)',
-      padding: '0 40px'
+      minHeight: 'calc(100vh - 140px)'
     },
     '@media screen and (min-width: 1200px)': {
       //
@@ -31,9 +30,8 @@ const useStyles = makeStyles((theme) => ({
   movies: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'stretch',
     flexWrap: 'wrap',
-    padding: '30px 0'
+    padding: '40px'
   },
   button: {
     alignSelf: 'center',

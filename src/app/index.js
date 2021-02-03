@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { Header, Footer } from './components/layout';
 import Routes from './routes';
@@ -8,11 +8,7 @@ import Routes from './routes';
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    checkIfLoggedIn();
-  }, []);
-
-  const checkIfLoggedIn = () => {
+  const checkIfLoggedIn = useCallback(() => {
     const tokenFromLocalStorage = localStorage.getItem('token');
 
     if (tokenFromLocalStorage) {
@@ -20,7 +16,11 @@ function App() {
     } else {
       dispatch({ type: 'LOGOUT' });
     }
-  };
+  }, [dispatch]);
+
+  useEffect(() => {
+    checkIfLoggedIn();
+  }, [checkIfLoggedIn]);
 
   return (
     <Router>

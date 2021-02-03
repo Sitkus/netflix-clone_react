@@ -39,20 +39,6 @@ function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
-
-    if (localStorageMovies) {
-      setMovies(localStorageMovies);
-    } else if (token) {
-      fetchMovies('https://academy-video-api.herokuapp.com/content/items');
-    } else {
-      fetchMovies('https://academy-video-api.herokuapp.com/content/free-items');
-    }
-    // checkForAnyFavoriteMovies();
-  }, [fetchMovies]);
-
   // Stuck here
   // const checkForAnyFavoriteMovies = () => {
   //   const favoriteMoviesFromLocalStorage = JSON.parse(localStorage.getItem('favorite-movies'));
@@ -114,6 +100,20 @@ function Home() {
       history.push(`/movie/${movieId}`);
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
+
+    if (localStorageMovies) {
+      setMovies(localStorageMovies);
+    } else if (token) {
+      fetchMovies('https://academy-video-api.herokuapp.com/content/items');
+    } else {
+      fetchMovies('https://academy-video-api.herokuapp.com/content/free-items');
+    }
+    // checkForAnyFavoriteMovies();
+  }, [fetchMovies]);
 
   return (
     <main className={classes.main}>

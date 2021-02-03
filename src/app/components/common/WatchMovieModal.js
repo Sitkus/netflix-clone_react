@@ -15,6 +15,7 @@ function WatchMovieModal({ video, setModalIsOpen }) {
   return (
     <div onClick={closeWatchMovieModal} className={classes.iframeContainer}>
       <iframe
+        title="Movie youtube"
         className={classes.iframe}
         src={video}
         frameBorder="0"

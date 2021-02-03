@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import useStyles from './pages.style';
 
@@ -11,6 +11,20 @@ function Movie() {
 
   const [currentMovie, setCurrentMovie] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const getMoviesFromLocalStorage = useCallback(() => {
+    const movies = JSON.parse(localStorage.getItem('movies'));
+
+    movies.forEach((movie) => {
+      if (locationParams.id === movie.id) {
+        setCurrentMovie(movie);
+      }
+    });
+  }, [locationParams.id]);
+
+  const toggleMovieFavorite = () => {
+    console.log('Favorite');
+  };
 
   useEffect(() => {
     getMoviesFromLocalStorage();
@@ -26,21 +40,7 @@ function Movie() {
     return function cleanup() {
       document.removeEventListener('keydown', checkForEscKeyPress);
     };
-  }, []);
-
-  const getMoviesFromLocalStorage = () => {
-    const movies = JSON.parse(localStorage.getItem('movies'));
-
-    movies.forEach((movie) => {
-      if (locationParams.id === movie.id) {
-        setCurrentMovie(movie);
-      }
-    });
-  };
-
-  const toggleMovieFavorite = () => {
-    console.log('Favorite');
-  };
+  }, [getMoviesFromLocalStorage]);
 
   return (
     <main className={`${classes.main} ${classes.mainMovie}`}>
