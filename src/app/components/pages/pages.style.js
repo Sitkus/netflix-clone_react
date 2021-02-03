@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   main: {
-    minHeight: 'calc(100vh - 210px)',
+    minHeight: 'calc(100vh - 190px)',
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
@@ -17,6 +17,12 @@ const useStyles = makeStyles((theme) => ({
   },
   mainWithForm: {
     alignItems: 'center'
+  },
+  mainMovie: {
+    '@media screen and (min-width: 1200px)': {
+      flexWrap: 'nowrap',
+      alignItems: 'center'
+    }
   },
 
   /**
@@ -67,22 +73,32 @@ const useStyles = makeStyles((theme) => ({
   },
 
   /**
-   * Movies
+   * Movie
    */
   movieImage: {
-    //
+    width: '100%',
+    height: '350px',
+    objectFit: 'cover',
+    padding: '50px 50px 0',
+    '@media screen and (min-width: 1200px)': {
+      width: '40%',
+      height: '100%',
+      alignSelf: 'flex-start',
+      padding: '50px'
+    }
   },
   movieContent: {
-    //
-  },
-  movieInsideTop: {
-    //
+    alignSelf: 'flex-start',
+    padding: '50px'
   },
   movieTitle: {
-    //
+    marginBottom: '5px'
   },
   movieDescription: {
-    //
+    marginBottom: '15px'
+  },
+  movieButton: {
+    marginRight: '15px'
   },
   favoriteButton: {
     //

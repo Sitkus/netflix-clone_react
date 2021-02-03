@@ -43,19 +43,21 @@ function Movie() {
   };
 
   return (
-    <main className={`${classes.main} ${classes.mainMovies}`}>
+    <main className={`${classes.main} ${classes.mainMovie}`}>
       <img className={classes.movieImage} src={currentMovie.image} alt="text" />
       <article className={classes.movieContent}>
-        <section className={classes.movieInsideTop}>
-          <h2 className={classes.movieTitle}>{currentMovie.title}</h2>
-          <p className={classes.movieDescription}>{currentMovie.description}</p>
-        </section>
+        <h2 className={classes.movieTitle}>{currentMovie.title}</h2>
+        <p className={classes.movieDescription}>{currentMovie.description}</p>
 
-        <Button onClick={() => setModalIsOpen(true)}>Watch it!</Button>
+        <Button className={classes.movieButton} onClick={() => setModalIsOpen(true)}>
+          Watch it!
+        </Button>
 
         <Button
           onClick={toggleMovieFavorite}
-          className={`${classes.favoriteButton} ${currentMovie.favorite ? classes.remove : classes.favorite}`}
+          className={`${classes.movieButton} ${classes.favoriteButton} ${
+            currentMovie.favorite ? classes.remove : classes.favorite
+          }`}
         >
           {currentMovie.favorite ? 'Remove' : 'Favorite'}
         </Button>

@@ -10,11 +10,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(30, 30, 30, 0.9)'
+    backgroundColor: 'rgba(30, 30, 30, 0.9)',
+    cursor: 'zoom-out'
   },
   iframe: {
     width: '70%',
-    height: '70%'
+    height: '70%',
+    cursor: 'pointer'
   }
 }));
 
