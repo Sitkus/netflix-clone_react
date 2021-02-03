@@ -81,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
     '@media screen and (min-width: 1200px)': {
       width: '40%',
       height: '100%',
+      maxHeight: '700px',
       alignSelf: 'flex-start',
       padding: '50px'
     }
@@ -98,14 +99,16 @@ const useStyles = makeStyles((theme) => ({
   movieButton: {
     marginRight: '15px'
   },
-  favoriteButton: {
+  favorite: {
     //
   },
   remove: {
-    //
-  },
-  favorite: {
-    //
+    boxShadow: `inset 0 0 0 2px ${theme.palette.secondary.main}`,
+    background: 'none',
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.main,
+      color: 'white'
+    }
   }
 }));
 

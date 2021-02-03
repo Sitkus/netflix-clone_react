@@ -8,18 +8,11 @@ import { Button } from '../helpers';
 function Header() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const classes = useStyles();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
   const logout = () => {
-    clearLocalStorage();
-
     dispatch({ type: 'LOGOUT' });
-  };
-
-  const clearLocalStorage = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('movies');
   };
 
   return (

@@ -1,1 +1,4 @@
+export const SET_MOVIES = 'SET_MOVIES';
+export const SET_FAVORITE_MOVIES = 'SET_FAVORITE_MOVIES';
 export const SET_NEW_URL = 'SET_NEW_URL';
+export const CLEAR_MOVIES_FROM_LS = 'CLEAR_MOVIES_FROM_LS';

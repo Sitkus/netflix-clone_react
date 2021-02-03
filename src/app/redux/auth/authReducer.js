@@ -5,14 +5,19 @@ const initialState = {
 };
 
 function authReducer(state = initialState, action) {
-  const { type } = action;
+  const { type, payload } = action;
 
   switch (type) {
     case LOGIN: {
-      return { isLoggedIn: true };
+      localStorage.setItem('token', payload.token);
+
+      return { ...state, isLoggedIn: true };
     }
     case LOGOUT: {
-      return { isLoggedIn: false };
+      localStorage.removeItem('token');
+      localStorage.removeItem('movies');
+
+      return { ...state, isLoggedIn: false };
     }
     default:
       return state;

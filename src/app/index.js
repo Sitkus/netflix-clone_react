@@ -12,7 +12,12 @@ function App() {
     const tokenFromLocalStorage = localStorage.getItem('token');
 
     if (tokenFromLocalStorage) {
-      dispatch({ type: 'LOGIN' });
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+          token: tokenFromLocalStorage
+        }
+      });
     } else {
       dispatch({ type: 'LOGOUT' });
     }

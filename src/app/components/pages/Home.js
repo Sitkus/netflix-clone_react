@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import useStyles from './pages.style';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { Hero } from '../layout';
 import { MovieBox } from '../common';
@@ -10,34 +10,45 @@ import { Button } from '../helpers';
 function Home() {
   let history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const [movies, setMovies] = useState([]);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
 
-  const fetchMovies = useCallback(async (urlToFetchFrom) => {
-    try {
-      const response = await fetch(urlToFetchFrom, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: localStorage.getItem('token') ?? null
+  const fetchMovies = useCallback(
+    async (urlToFetchFrom) => {
+      try {
+        const response = await fetch(urlToFetchFrom, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: localStorage.getItem('token') ?? null
+          }
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error('Something went wrong...');
         }
-      });
-      const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error('Something went wrong...');
+        dispatch({
+          type: 'SET_MOVIES',
+          payload: {
+            newMovies: data
+          }
+        });
+
+        // setMovies(data);
+        // saveMoviesToLocalStorage(data);
+      } catch (e) {
+        console.log(e.message);
+      } finally {
+        console.log('Finally');
       }
-
-      setMovies(data);
-      saveMoviesToLocalStorage(data);
-    } catch (e) {
-      console.log(e.message);
-    } finally {
-      console.log('Finally');
-    }
-  }, []);
+    },
+    [dispatch]
+  );
 
   // Stuck here
   // const checkForAnyFavoriteMovies = () => {
@@ -71,7 +82,7 @@ function Home() {
       favoriteMovies.push(favoredMovie.id);
     }
 
-    setFavoriteMovies(favoriteMovies);
+    // setFavoriteMovies(favoriteMovies);
 
     const updatedMovies = movies.map((currentMovie) => {
       if (currentMovie.id === favoredMovie.id) {
@@ -81,19 +92,32 @@ function Home() {
       return currentMovie;
     });
 
-    setMovies(updatedMovies);
-    saveFavoriteMoviesToLocalStorage();
-    saveMoviesToLocalStorage(updatedMovies);
+    dispatch({
+      type: 'SET_MOVIES',
+      payload: {
+        newMovies: updatedMovies
+      }
+    });
+
+    dispatch({
+      type: 'SET_FAVORITE_MOVIES',
+      payload: {
+        newFavoriteMovies: favoriteMovies
+      }
+    });
+
+    // setMovies(updatedMovies);
+    // saveFavoriteMoviesToLocalStorage();
+    // saveMoviesToLocalStorage(updatedMovies);
   };
 
-  const saveFavoriteMoviesToLocalStorage = () => {
-    console.log(favoriteMovies);
-    localStorage.setItem('favorite-movies', JSON.stringify(favoriteMovies));
-  };
+  // const saveFavoriteMoviesToLocalStorage = () => {
+  //   localStorage.setItem('favorite-movies', JSON.stringify(favoriteMovies));
+  // };
 
-  const saveMoviesToLocalStorage = (movies) => {
-    localStorage.setItem('movies', JSON.stringify(movies));
-  };
+  // const saveMoviesToLocalStorage = (movies) => {
+  //   localStorage.setItem('movies', JSON.stringify(movies));
+  // };
 
   const openChosenMovie = (e, movieId) => {
     if (e.target.type !== 'button') {
@@ -112,8 +136,7 @@ function Home() {
     } else {
       fetchMovies('https://academy-video-api.herokuapp.com/content/free-items');
     }
-    // checkForAnyFavoriteMovies();
-  }, [fetchMovies]);
+  }, [fetchMovies, isLoggedIn]);
 
   return (
     <main className={classes.main}>

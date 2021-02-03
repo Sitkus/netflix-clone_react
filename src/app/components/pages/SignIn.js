@@ -39,21 +39,19 @@ function SignIn() {
     const data = await response.json();
 
     if (response.ok) {
-      saveTokenToLocalStorage(data.token);
-      clearMoviesFromLocalStorage();
+      dispatch({
+        type: 'CLEAR_MOVIES_FROM_LS'
+      });
 
-      dispatch({ type: 'LOGIN' });
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+          token: data.token
+        }
+      });
     } else {
       showError('Please check the login details');
     }
-  };
-
-  const saveTokenToLocalStorage = (token) => {
-    localStorage.setItem('token', token);
-  };
-
-  const clearMoviesFromLocalStorage = () => {
-    localStorage.removeItem('movies');
   };
 
   const saveInputData = (e) => {
@@ -75,6 +73,7 @@ function SignIn() {
           Username:
         </label>
         <input
+          autoFocus
           className={classes.input}
           onChange={(e) => saveInputData(e)}
           type="text"
