@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useStyles from './pages.style';
-import { useSelector, useDispatch } from 'react-redux';
 
 import { Hero } from '../layout';
 import { MovieBox } from '../common';
@@ -13,8 +13,8 @@ function Home() {
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const [movies, setMovies] = useState([]);
-  const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const movies = useSelector((state) => state.movies.movies);
+  const favoriteMovies = useSelector((state) => state.movies.favoriteMovies);
 
   const fetchMovies = useCallback(
     async (urlToFetchFrom) => {
@@ -38,9 +38,6 @@ function Home() {
             newMovies: data
           }
         });
-
-        // setMovies(data);
-        // saveMoviesToLocalStorage(data);
       } catch (e) {
         console.log(e.message);
       } finally {
@@ -82,8 +79,6 @@ function Home() {
       favoriteMovies.push(favoredMovie.id);
     }
 
-    // setFavoriteMovies(favoriteMovies);
-
     const updatedMovies = movies.map((currentMovie) => {
       if (currentMovie.id === favoredMovie.id) {
         currentMovie = favoredMovie;
@@ -105,19 +100,7 @@ function Home() {
         newFavoriteMovies: favoriteMovies
       }
     });
-
-    // setMovies(updatedMovies);
-    // saveFavoriteMoviesToLocalStorage();
-    // saveMoviesToLocalStorage(updatedMovies);
   };
-
-  // const saveFavoriteMoviesToLocalStorage = () => {
-  //   localStorage.setItem('favorite-movies', JSON.stringify(favoriteMovies));
-  // };
-
-  // const saveMoviesToLocalStorage = (movies) => {
-  //   localStorage.setItem('movies', JSON.stringify(movies));
-  // };
 
   const openChosenMovie = (e, movieId) => {
     if (e.target.type !== 'button') {
@@ -130,13 +113,18 @@ function Home() {
     const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
 
     if (localStorageMovies) {
-      setMovies(localStorageMovies);
+      dispatch({
+        type: 'SET_MOVIES',
+        payload: {
+          newMovies: localStorageMovies
+        }
+      });
     } else if (token) {
       fetchMovies('https://academy-video-api.herokuapp.com/content/items');
     } else {
       fetchMovies('https://academy-video-api.herokuapp.com/content/free-items');
     }
-  }, [fetchMovies, isLoggedIn]);
+  }, [fetchMovies, isLoggedIn, dispatch]);
 
   return (
     <main className={classes.main}>

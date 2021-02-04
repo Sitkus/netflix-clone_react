@@ -13,6 +13,7 @@ function Header() {
 
   const logout = () => {
     dispatch({ type: 'LOGOUT' });
+    dispatch({ type: 'CLEAR_MOVIES_FROM_LS' });
   };
 
   return (

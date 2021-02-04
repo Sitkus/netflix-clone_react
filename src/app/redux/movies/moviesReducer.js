@@ -25,6 +25,7 @@ function moviesReducer(state = initialState, action) {
     }
     case CLEAR_MOVIES_FROM_LS: {
       localStorage.removeItem('movies');
+
       return state;
     }
     default:

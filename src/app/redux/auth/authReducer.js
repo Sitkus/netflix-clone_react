@@ -15,7 +15,6 @@ function authReducer(state = initialState, action) {
     }
     case LOGOUT: {
       localStorage.removeItem('token');
-      localStorage.removeItem('movies');
 
       return { ...state, isLoggedIn: false };
     }
