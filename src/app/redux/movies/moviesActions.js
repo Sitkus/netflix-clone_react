@@ -22,15 +22,15 @@ const fetchMovies = () =>
     types: [FETCH_MOVIES, FETCH_MOVIES_SUCCESS, FETCH_MOVIES_FAILURE]
   });
 
-const fetchMoviesSuccess = () => {
-  console.log('Success, movies have been saved via redux');
+// const fetchMoviesSuccess = () => {
+//   console.log('Success, movies have been saved via redux');
 
-  setMovies();
-};
+//   setMovies();
+// };
 
-const fetchMoviesFailure = () => {
-  console.log('Error, movies failed to fetch');
-};
+// const fetchMoviesFailure = () => {
+//   console.log('Error, movies failed to fetch');
+// };
 
 const setMovies = () => ({
   type: SET_MOVIES
@@ -50,8 +50,8 @@ const clearMoviesFromLocalStorage = () => ({
 
 export {
   fetchMovies,
-  fetchMoviesSuccess,
-  fetchMoviesFailure,
+  // fetchMoviesSuccess,
+  // fetchMoviesFailure,
   setMovies,
   toggleFavoriteMovie,
   setFavoriteMovies,

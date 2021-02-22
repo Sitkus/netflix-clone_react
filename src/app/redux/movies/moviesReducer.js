@@ -1,4 +1,12 @@
-import { FETCH_MOVIES, SET_MOVIES, TOGGLE_FAVORITE, SET_FAVORITE_MOVIES, CLEAR_MOVIES_FROM_LS } from './moviesTypes';
+import {
+  FETCH_MOVIES,
+  FETCH_MOVIES_SUCCESS,
+  FETCH_MOVIES_FAILURE,
+  SET_MOVIES,
+  TOGGLE_FAVORITE,
+  SET_FAVORITE_MOVIES,
+  CLEAR_MOVIES_FROM_LS
+} from './moviesTypes';
 
 const initialState = {
   allMovies: [],
@@ -10,8 +18,18 @@ function moviesReducer(state = initialState, action) {
 
   switch (type) {
     case FETCH_MOVIES: {
-      console.log(payload);
-      return { ...state, ...initialState.allMovies, ...initialState.favoriteMovies };
+      console.log(action);
+      return state;
+    }
+
+    case FETCH_MOVIES_SUCCESS: {
+      console.log(action);
+      return state;
+    }
+
+    case FETCH_MOVIES_FAILURE: {
+      console.log(action);
+      return state;
     }
 
     case SET_MOVIES: {
