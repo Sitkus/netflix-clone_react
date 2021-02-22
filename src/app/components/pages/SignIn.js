@@ -13,13 +13,10 @@ function SignIn() {
     password: ''
   });
 
-  const checkIfInputsAreNotEmpty = (e) => {
-    const username = userDetails.username;
-    const password = userDetails.password;
-
+  const checkInputsLength = (e) => {
     removeError();
 
-    if (username && password) {
+    if (userDetails.username && userDetails.password) {
       login();
     } else {
       showError('Please fill in the fields');
@@ -29,28 +26,32 @@ function SignIn() {
   };
 
   const login = async () => {
-    const response = await fetch('https://academy-video-api.herokuapp.com/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userDetails)
-    });
-    const data = await response.json();
-
-    if (response.ok) {
-      dispatch({
-        type: 'CLEAR_MOVIES_FROM_LS'
+    try {
+      const response = await fetch('https://academy-video-api.herokuapp.com/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userDetails)
       });
+      const data = await response.json();
 
-      dispatch({
-        type: 'LOGIN',
-        payload: {
-          token: data.token
-        }
-      });
-    } else {
-      showError('Please check the login details');
+      if (response.ok) {
+        dispatch({
+          type: 'CLEAR_MOVIES_FROM_LS'
+        });
+
+        dispatch({
+          type: 'LOGIN',
+          payload: {
+            token: data.token
+          }
+        });
+      } else {
+        showError('Please check the login details');
+      }
+    } catch (err) {
+      showError(err.message);
     }
   };
 
@@ -68,7 +69,7 @@ function SignIn() {
 
   return (
     <main className={`${classes.main} ${classes.mainWithForm}`}>
-      <form className={classes.form} method="POST" onSubmit={checkIfInputsAreNotEmpty}>
+      <form className={classes.form} method="POST" onSubmit={checkInputsLength}>
         <label className={classes.label} htmlFor="username">
           Username:
         </label>

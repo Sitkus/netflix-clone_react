@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import useStyles from './pages.style';
 
@@ -7,7 +6,6 @@ import { Button } from '../helpers';
 import { WatchMovieModal } from '../common';
 
 function Movie() {
-  // const movies = useSelector((state) => state.movies.movies);
   const locationParams = useParams();
   const classes = useStyles();
 

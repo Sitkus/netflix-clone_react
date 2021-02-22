@@ -1,33 +1,78 @@
-import { SET_MOVIES, SET_FAVORITE_MOVIES, SET_NEW_URL, CLEAR_MOVIES_FROM_LS } from './moviesTypes';
+import { FETCH_MOVIES, SET_MOVIES, TOGGLE_FAVORITE, SET_FAVORITE_MOVIES, CLEAR_MOVIES_FROM_LS } from './moviesTypes';
 
 const initialState = {
-  movies: [],
-  favoriteMovies: [],
-  fetchUrl: 'https://academy-video-api.herokuapp.com/content/free-items'
+  allMovies: [],
+  favoriteMovies: []
 };
 
 function moviesReducer(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case FETCH_MOVIES: {
+      console.log(payload);
+      return { ...state, ...initialState.allMovies, ...initialState.favoriteMovies };
+    }
+
     case SET_MOVIES: {
-      localStorage.setItem('movies', JSON.stringify(payload.newMovies));
+      let { newMovies } = payload;
 
-      return { ...state, movies: payload.newMovies };
+      if (state.favoriteMovies.length > 0) {
+        newMovies = newMovies.map((movie) => {
+          const favoriteMovieExist = state.favoriteMovies.indexOf(movie.id);
+
+          if (favoriteMovieExist > -1) {
+            movie.favorite = true;
+          } else {
+            movie.favorite = false;
+          }
+
+          return movie;
+        });
+      }
+
+      localStorage.setItem('movies', JSON.stringify(newMovies));
+
+      return { ...state, allMovies: newMovies };
     }
+
+    case TOGGLE_FAVORITE: {
+      const { clickedMovie } = payload;
+      const favoriteMovieExist = state.favoriteMovies.indexOf(clickedMovie.id);
+      const updatedFavoriteMovies = state.favoriteMovies;
+
+      clickedMovie.favorite = !clickedMovie.favorite;
+
+      if (favoriteMovieExist > -1) {
+        updatedFavoriteMovies.splice(favoriteMovieExist, 1);
+      } else {
+        updatedFavoriteMovies.push(clickedMovie.id);
+      }
+
+      const updatedMovies = state.allMovies.map((currentMovie) => {
+        if (currentMovie.id === clickedMovie.id) {
+          currentMovie = clickedMovie;
+        }
+
+        return currentMovie;
+      });
+
+      return { ...state, allMovies: updatedMovies, favoriteMovies: updatedFavoriteMovies };
+    }
+
     case SET_FAVORITE_MOVIES: {
-      localStorage.setItem('favorite-movies', JSON.stringify(payload.newFavoriteMovies));
+      const { newFavoriteMovies } = payload;
+      localStorage.setItem('favorite-movies', JSON.stringify(newFavoriteMovies));
 
-      return { ...state, favoriteMovies: payload.newFavoriteMovies };
+      return { ...state, favoriteMovies: newFavoriteMovies };
     }
-    case SET_NEW_URL: {
-      return { ...state, fetchUrl: payload.newUrl };
-    }
+
     case CLEAR_MOVIES_FROM_LS: {
       localStorage.removeItem('movies');
 
       return state;
     }
+
     default:
       return state;
   }

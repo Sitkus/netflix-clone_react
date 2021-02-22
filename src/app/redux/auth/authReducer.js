@@ -13,11 +13,13 @@ function authReducer(state = initialState, action) {
 
       return { ...state, isLoggedIn: true };
     }
+
     case LOGOUT: {
       localStorage.removeItem('token');
 
       return { ...state, isLoggedIn: false };
     }
+
     default:
       return state;
   }

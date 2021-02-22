@@ -9,13 +9,13 @@ function App() {
   const dispatch = useDispatch();
 
   const checkIfLoggedIn = useCallback(() => {
-    const tokenFromLocalStorage = localStorage.getItem('token');
+    const localStorageToken = localStorage.getItem('token');
 
-    if (tokenFromLocalStorage) {
+    if (localStorageToken) {
       dispatch({
         type: 'LOGIN',
         payload: {
-          token: tokenFromLocalStorage
+          token: localStorageToken
         }
       });
     } else {

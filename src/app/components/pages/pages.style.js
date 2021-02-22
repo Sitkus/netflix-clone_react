@@ -9,16 +9,15 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     '@media screen and (min-width: 768px)': {
       minHeight: 'calc(100vh - 140px)'
-    },
-    '@media screen and (min-width: 1200px)': {
-      //
     }
   },
   mainWithForm: {
     alignItems: 'center'
   },
   mainMovie: {
+    display: 'block',
     '@media screen and (min-width: 1200px)': {
+      display: 'flex',
       flexWrap: 'nowrap',
       alignItems: 'center'
     }
