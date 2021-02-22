@@ -1,6 +1,5 @@
 import {
   FETCH_MOVIES,
-  FETCH_MOVIES_SUCCESS,
   FETCH_MOVIES_FAILURE,
   SET_MOVIES,
   TOGGLE_FAVORITE,
@@ -10,33 +9,19 @@ import {
 
 const initialState = {
   allMovies: [],
-  favoriteMovies: []
+  favoriteMovies: [],
+  isLoading: false
 };
 
 function moviesReducer(state = initialState, action) {
-  const { type, payload } = action;
-
-  switch (type) {
+  switch (action.type) {
     case FETCH_MOVIES: {
-      console.log(action);
-      return state;
-    }
-
-    case FETCH_MOVIES_SUCCESS: {
-      console.log(action);
-      return state;
-    }
-
-    case FETCH_MOVIES_FAILURE: {
-      console.log(action);
-      return state;
+      return { ...state, isLoading: true };
     }
 
     case SET_MOVIES: {
-      let { newMovies } = payload;
-
       if (state.favoriteMovies.length > 0) {
-        newMovies = newMovies.map((movie) => {
+        action.payload = action.payload.map((movie) => {
           const favoriteMovieExist = state.favoriteMovies.indexOf(movie.id);
 
           if (favoriteMovieExist > -1) {
@@ -49,27 +34,32 @@ function moviesReducer(state = initialState, action) {
         });
       }
 
-      localStorage.setItem('movies', JSON.stringify(newMovies));
+      localStorage.setItem('movies', JSON.stringify(action.payload));
 
-      return { ...state, allMovies: newMovies };
+      return { ...state, allMovies: action.payload, isLoading: false };
+    }
+
+    case FETCH_MOVIES_FAILURE: {
+      console.log('Some kind of error happened at FETCH_MOVIES');
+
+      return state;
     }
 
     case TOGGLE_FAVORITE: {
-      const { clickedMovie } = payload;
-      const favoriteMovieExist = state.favoriteMovies.indexOf(clickedMovie.id);
+      const favoriteMovieExist = state.favoriteMovies.indexOf(action.payload.id);
       const updatedFavoriteMovies = state.favoriteMovies;
 
-      clickedMovie.favorite = !clickedMovie.favorite;
+      action.payload.favorite = !action.payload.favorite;
 
       if (favoriteMovieExist > -1) {
         updatedFavoriteMovies.splice(favoriteMovieExist, 1);
       } else {
-        updatedFavoriteMovies.push(clickedMovie.id);
+        updatedFavoriteMovies.push(action.payload.id);
       }
 
       const updatedMovies = state.allMovies.map((currentMovie) => {
-        if (currentMovie.id === clickedMovie.id) {
-          currentMovie = clickedMovie;
+        if (currentMovie.id === action.payload.id) {
+          currentMovie = action.payload;
         }
 
         return currentMovie;
@@ -79,10 +69,9 @@ function moviesReducer(state = initialState, action) {
     }
 
     case SET_FAVORITE_MOVIES: {
-      const { newFavoriteMovies } = payload;
-      localStorage.setItem('favorite-movies', JSON.stringify(newFavoriteMovies));
+      localStorage.setItem('favorite-movies', JSON.stringify(action.payload));
 
-      return { ...state, favoriteMovies: newFavoriteMovies };
+      return { ...state, favoriteMovies: action.payload };
     }
 
     case CLEAR_MOVIES_FROM_LS: {

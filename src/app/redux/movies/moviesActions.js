@@ -1,7 +1,6 @@
 import { createAction } from 'redux-api-middleware';
 import {
   FETCH_MOVIES,
-  FETCH_MOVIES_SUCCESS,
   FETCH_MOVIES_FAILURE,
   SET_MOVIES,
   TOGGLE_FAVORITE,
@@ -19,18 +18,8 @@ const fetchMovies = () =>
       'Content-Type': 'application/json',
       Authorization: localStorage.getItem('token') ?? null
     },
-    types: [FETCH_MOVIES, FETCH_MOVIES_SUCCESS, FETCH_MOVIES_FAILURE]
+    types: [FETCH_MOVIES, SET_MOVIES, FETCH_MOVIES_FAILURE]
   });
-
-// const fetchMoviesSuccess = () => {
-//   console.log('Success, movies have been saved via redux');
-
-//   setMovies();
-// };
-
-// const fetchMoviesFailure = () => {
-//   console.log('Error, movies failed to fetch');
-// };
 
 const setMovies = () => ({
   type: SET_MOVIES
@@ -48,12 +37,4 @@ const clearMoviesFromLocalStorage = () => ({
   type: CLEAR_MOVIES_FROM_LS
 });
 
-export {
-  fetchMovies,
-  // fetchMoviesSuccess,
-  // fetchMoviesFailure,
-  setMovies,
-  toggleFavoriteMovie,
-  setFavoriteMovies,
-  clearMoviesFromLocalStorage
-};
+export { fetchMovies, setMovies, toggleFavoriteMovie, setFavoriteMovies, clearMoviesFromLocalStorage };
