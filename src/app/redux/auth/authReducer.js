@@ -5,11 +5,9 @@ const initialState = {
 };
 
 function authReducer(state = initialState, action) {
-  const { type, payload } = action;
-
-  switch (type) {
+  switch (action.type) {
     case LOGIN: {
-      localStorage.setItem('token', payload.token);
+      localStorage.setItem('token', action.payload);
 
       return { ...state, isLoggedIn: true };
     }

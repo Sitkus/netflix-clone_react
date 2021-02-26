@@ -1,11 +1,4 @@
-import {
-  FETCH_MOVIES,
-  FETCH_MOVIES_FAILURE,
-  SET_MOVIES,
-  TOGGLE_FAVORITE,
-  SET_FAVORITE_MOVIES,
-  CLEAR_MOVIES_FROM_LS
-} from './moviesTypes';
+import { FETCH_MOVIES, FETCH_MOVIES_FAILURE, SET_MOVIES, TOGGLE_FAVORITE, SET_FAVORITE_MOVIES } from './moviesTypes';
 
 const initialState = {
   allMovies: [],
@@ -47,37 +40,35 @@ function moviesReducer(state = initialState, action) {
 
     case TOGGLE_FAVORITE: {
       const favoriteMovieExist = state.favoriteMovies.indexOf(action.payload.id);
-      const updatedFavoriteMovies = state.favoriteMovies;
+      const favoriteMovies = state.favoriteMovies;
+      const moviesFromLocalStorage = JSON.parse(localStorage.getItem('movies'));
 
       action.payload.favorite = !action.payload.favorite;
 
       if (favoriteMovieExist > -1) {
-        updatedFavoriteMovies.splice(favoriteMovieExist, 1);
+        favoriteMovies.splice(favoriteMovieExist, 1);
       } else {
-        updatedFavoriteMovies.push(action.payload.id);
+        favoriteMovies.push(action.payload.id);
       }
 
-      const updatedMovies = state.allMovies.map((currentMovie) => {
-        if (currentMovie.id === action.payload.id) {
-          currentMovie = action.payload;
+      const movies = moviesFromLocalStorage.map((movie) => {
+        if (movie.id === action.payload.id) {
+          movie = action.payload;
         }
 
-        return currentMovie;
+        return movie;
       });
 
-      return { ...state, allMovies: updatedMovies, favoriteMovies: updatedFavoriteMovies };
+      localStorage.setItem('movies', JSON.stringify(movies));
+      localStorage.setItem('favorite-movies', JSON.stringify(favoriteMovies));
+
+      return { ...state, allMovies: movies, favoriteMovies };
     }
 
     case SET_FAVORITE_MOVIES: {
       localStorage.setItem('favorite-movies', JSON.stringify(action.payload));
 
       return { ...state, favoriteMovies: action.payload };
-    }
-
-    case CLEAR_MOVIES_FROM_LS: {
-      localStorage.removeItem('movies');
-
-      return state;
     }
 
     default:

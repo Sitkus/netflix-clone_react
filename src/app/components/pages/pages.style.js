@@ -72,6 +72,17 @@ const useStyles = makeStyles((theme) => ({
   /**
    * Movie
    */
+  movieDoesntExist: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    minHeight: 'calc(100vh - 190px)',
+    width: '100%',
+    '@media screen and (min-width: 768px)': {
+      minHeight: 'calc(100vh - 140px)'
+    }
+  },
   movieImage: {
     width: '100%',
     height: '350px',

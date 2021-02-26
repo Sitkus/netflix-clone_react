@@ -1,13 +1,16 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import useStyles from './pages.style';
 
+import movies from '../../redux/movies';
 import { Button } from '../helpers';
 import { WatchMovieModal } from '../common';
 
 function Movie() {
   const locationParams = useParams();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [currentMovie, setCurrentMovie] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -22,21 +25,10 @@ function Movie() {
     });
   }, [locationParams.id]);
 
-  const toggleMovieFavorite = (movieFavoriteToggle) => {
-    movieFavoriteToggle = !movieFavoriteToggle;
+  const toggleFavoriteMovie = (clickedMovie) => {
+    dispatch(movies.actions.toggleFavoriteMovie(clickedMovie));
 
-    const moviesFromLocalStorage = JSON.parse(localStorage.getItem('movies'));
-
-    const updatedMovies = moviesFromLocalStorage.map((updatingMovie) => {
-      if (updatingMovie.id === movieFavoriteToggle.id) {
-        updatingMovie = movieFavoriteToggle;
-      }
-
-      return updatingMovie;
-    });
-
-    localStorage.setItem('movies', JSON.stringify(updatedMovies));
-    setCurrentMovie(currentMovie);
+    getMoviesFromLocalStorage();
   };
 
   useEffect(() => {
@@ -57,24 +49,30 @@ function Movie() {
 
   return (
     <main className={`${classes.main} ${classes.mainMovie}`}>
-      <img className={classes.movieImage} src={currentMovie.image} alt="text" />
-      <article className={classes.movieContent}>
-        <h2 className={classes.movieTitle}>{currentMovie.title}</h2>
-        <p className={classes.movieDescription}>{currentMovie.description}</p>
+      {Object.keys(currentMovie).length === 0 ? (
+        <p className={classes.movieDoesntExist}>Such movie doesn't exist, please try again...</p>
+      ) : (
+        <>
+          <img className={classes.movieImage} src={currentMovie.image} alt="text" />
+          <article className={classes.movieContent}>
+            <h2 className={classes.movieTitle}>{currentMovie.title}</h2>
+            <p className={classes.movieDescription}>{currentMovie.description}</p>
 
-        <Button className={classes.movieButton} onClick={() => setModalIsOpen(true)}>
-          Watch it!
-        </Button>
+            <Button className={classes.movieButton} onClick={() => setModalIsOpen(true)}>
+              Watch it!
+            </Button>
 
-        <Button
-          onClick={() => toggleMovieFavorite(currentMovie)}
-          className={`${classes.movieButton} ${currentMovie.favorite ? classes.remove : classes.favorite}`}
-        >
-          {currentMovie.favorite ? 'Remove' : 'Favorite'}
-        </Button>
-      </article>
+            <Button
+              onClick={() => toggleFavoriteMovie(currentMovie)}
+              className={`${classes.movieButton} ${currentMovie.favorite ? classes.remove : classes.favorite}`}
+            >
+              {currentMovie.favorite ? 'Remove' : 'Favorite'}
+            </Button>
+          </article>
 
-      {modalIsOpen ? <WatchMovieModal setModalIsOpen={setModalIsOpen} video={currentMovie.video} /> : null}
+          {modalIsOpen ? <WatchMovieModal setModalIsOpen={setModalIsOpen} video={currentMovie.video} /> : null}
+        </>
+      )}
     </main>
   );
 }

@@ -2,6 +2,8 @@ import { useEffect, useCallback } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
+import movies from './redux/movies';
+import auth from './redux/auth';
 import { Header, Footer } from './components/layout';
 import Routes from './routes';
 
@@ -12,20 +14,28 @@ function App() {
     const localStorageToken = localStorage.getItem('token');
 
     if (localStorageToken) {
-      dispatch({
-        type: 'LOGIN',
-        payload: {
-          token: localStorageToken
-        }
-      });
+      dispatch(auth.actions.login(localStorageToken));
     } else {
-      dispatch({ type: 'LOGOUT' });
+      dispatch(auth.actions.logout());
     }
   }, [dispatch]);
 
   useEffect(() => {
     checkIfLoggedIn();
-  }, [checkIfLoggedIn]);
+
+    const localStorageFavoriteMovies = JSON.parse(localStorage.getItem('favorite-movies'));
+    const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
+
+    if (localStorageFavoriteMovies) {
+      dispatch(movies.actions.setFavoriteMovies(localStorageFavoriteMovies));
+    }
+
+    if (localStorageMovies) {
+      dispatch(movies.actions.setMovies(localStorageMovies));
+    } else {
+      dispatch(movies.actions.fetchMovies());
+    }
+  }, [checkIfLoggedIn, dispatch]);
 
   return (
     <Router>

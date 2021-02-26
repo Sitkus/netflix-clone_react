@@ -1,39 +1,22 @@
-import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useStyles from './pages.style';
 
-import { fetchMovies } from '../../redux/movies/moviesActions';
+import movies from '../../redux/movies';
+import auth from '../../redux/auth';
+
 import { Hero } from '../layout';
 import { MovieBox } from '../common';
 import { Button } from '../helpers';
 
 function Home() {
-  let history = useHistory();
+  const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const moviesAreLoading = useSelector((state) => state.movies.isLoading);
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const movies = useSelector((state) => state.movies.allMovies);
-  const favoriteMovies = useSelector((state) => state.movies.favoriteMovies);
-
-  const toggleMovieFavorite = (clickedMovie) => {
-    dispatch({
-      type: 'TOGGLE_FAVORITE',
-      payload: clickedMovie
-    });
-
-    dispatch({
-      type: 'SET_MOVIES',
-      payload: movies
-    });
-
-    dispatch({
-      type: 'SET_FAVORITE_MOVIES',
-      payload: favoriteMovies
-    });
-  };
+  const isLoggedIn = useSelector(auth.selectors.isLoggedIn);
+  const moviesAreLoading = useSelector(movies.selectors.isLoading);
+  const allMovies = useSelector(movies.selectors.allMovies);
 
   const openChosenMovie = (e, movieId) => {
     if (e.target.type !== 'button') {
@@ -41,38 +24,17 @@ function Home() {
     }
   };
 
-  useEffect(() => {
-    const localStorageFavoriteMovies = JSON.parse(localStorage.getItem('favorite-movies'));
-    const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
-
-    if (localStorageFavoriteMovies) {
-      dispatch({
-        type: 'SET_FAVORITE_MOVIES',
-        payload: localStorageFavoriteMovies
-      });
-    }
-
-    if (localStorageMovies) {
-      dispatch({
-        type: 'SET_MOVIES',
-        payload: localStorageMovies
-      });
-    } else {
-      dispatch(fetchMovies());
-    }
-  }, [isLoggedIn, dispatch]);
-
   return (
     <main className={classes.main}>
       {!isLoggedIn && <Hero />}
 
       <ul className={classes.movies}>
         {!moviesAreLoading ? (
-          movies.map((movie) => (
+          allMovies.map((movie) => (
             <MovieBox
               clickOnMovie={(e) => openChosenMovie(e, movie.id)}
               favorite={movie.favorite || false}
-              toggleFavorite={() => toggleMovieFavorite(movie)}
+              toggleFavorite={() => dispatch(movies.actions.toggleFavoriteMovie(movie))}
               key={movie.id}
               image={movie.image}
               title={movie.title}

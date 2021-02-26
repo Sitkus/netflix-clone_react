@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+import movies from '../../redux/movies';
+import auth from '../../redux/auth';
 import useStyles from './pages.style';
 import { Button } from '../helpers';
 
@@ -37,21 +39,14 @@ function SignIn() {
       const data = await response.json();
 
       if (response.ok) {
-        dispatch({
-          type: 'CLEAR_MOVIES_FROM_LS'
-        });
-
-        dispatch({
-          type: 'LOGIN',
-          payload: {
-            token: data.token
-          }
-        });
+        dispatch(auth.actions.login(data.token));
       } else {
         showError('Please check the login details');
       }
     } catch (err) {
       showError(err.message);
+    } finally {
+      dispatch(movies.actions.fetchMovies());
     }
   };
 

@@ -1,6 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import movies from '../../redux/movies';
+import auth from '../../redux/auth';
 import useStyles from './Header.style';
 import logo from '../../../assets/images/logo.svg';
 import { Button } from '../helpers';
@@ -9,11 +11,11 @@ function Header() {
   const location = useLocation();
   const dispatch = useDispatch();
   const classes = useStyles();
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector(auth.selectors.isLoggedIn);
 
   const logout = () => {
-    dispatch({ type: 'LOGOUT' });
-    dispatch({ type: 'CLEAR_MOVIES_FROM_LS' });
+    dispatch(auth.actions.logout());
+    dispatch(movies.actions.fetchMovies());
   };
 
   return (

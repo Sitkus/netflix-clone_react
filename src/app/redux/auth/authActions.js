@@ -1,11 +1,10 @@
 import { LOGIN, LOGOUT } from './authTypes';
 
-const login = () => ({
-  type: LOGIN
+export const login = (token) => ({
+  type: LOGIN,
+  payload: token
 });
 
-const logout = () => ({
+export const logout = () => ({
   type: LOGOUT
 });
-
-export { login, logout };

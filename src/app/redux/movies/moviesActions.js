@@ -1,14 +1,7 @@
 import { createAction } from 'redux-api-middleware';
-import {
-  FETCH_MOVIES,
-  FETCH_MOVIES_FAILURE,
-  SET_MOVIES,
-  TOGGLE_FAVORITE,
-  SET_FAVORITE_MOVIES,
-  CLEAR_MOVIES_FROM_LS
-} from './moviesTypes';
+import { FETCH_MOVIES, FETCH_MOVIES_FAILURE, SET_MOVIES, TOGGLE_FAVORITE, SET_FAVORITE_MOVIES } from './moviesTypes';
 
-const fetchMovies = () =>
+export const fetchMovies = () =>
   createAction({
     endpoint: `https://academy-video-api.herokuapp.com/content/${
       localStorage.getItem('token') ? 'items' : 'free-items'
@@ -21,20 +14,17 @@ const fetchMovies = () =>
     types: [FETCH_MOVIES, SET_MOVIES, FETCH_MOVIES_FAILURE]
   });
 
-const setMovies = () => ({
-  type: SET_MOVIES
+export const setMovies = (updatedMovies) => ({
+  type: SET_MOVIES,
+  payload: updatedMovies
 });
 
-const toggleFavoriteMovie = () => ({
-  type: TOGGLE_FAVORITE
+export const toggleFavoriteMovie = (clickedMovie) => ({
+  type: TOGGLE_FAVORITE,
+  payload: clickedMovie
 });
 
-const setFavoriteMovies = () => ({
-  type: SET_FAVORITE_MOVIES
+export const setFavoriteMovies = (updatedFavoriteMovies) => ({
+  type: SET_FAVORITE_MOVIES,
+  payload: updatedFavoriteMovies
 });
-
-const clearMoviesFromLocalStorage = () => ({
-  type: CLEAR_MOVIES_FROM_LS
-});
-
-export { fetchMovies, setMovies, toggleFavoriteMovie, setFavoriteMovies, clearMoviesFromLocalStorage };
