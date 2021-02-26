@@ -1,10 +1,7 @@
-import { useEffect } from 'react';
 import useStyles from './WatchMovieModal.style';
 
 function WatchMovieModal({ video, setModalIsOpen }) {
   const classes = useStyles();
-
-  useEffect(() => {}, []);
 
   const closeWatchMovieModal = (e) => {
     if (e.target.src !== video) {
