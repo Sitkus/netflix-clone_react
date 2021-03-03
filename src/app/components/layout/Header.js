@@ -5,7 +5,7 @@ import movies from '../../redux/movies';
 import auth from '../../redux/auth';
 import useStyles from './Header.style';
 import logo from '../../../assets/images/logo.svg';
-import { Button } from '../helpers';
+import { LinkButton, Button } from '../helpers';
 
 function Header() {
   const location = useLocation();
@@ -25,9 +25,7 @@ function Header() {
           <img className={classes.logoImage} src={logo} alt="Logo made from an F letter" />
         </Link>
         {location.pathname === '/sign-in' ? null : !isLoggedIn ? (
-          <Link to="/sign-in">
-            <Button>Sign in</Button>
-          </Link>
+          <LinkButton to="/sign-in">Sign in</LinkButton>
         ) : (
           <Button onClick={logout}>Logout</Button>
         )}

@@ -1,12 +1,16 @@
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import auth from '../redux/auth';
 
 function PublicRoute({ children, ...properties }) {
+  const location = useLocation();
   const isLoggedIn = useSelector(auth.selectors.isLoggedIn);
-  const tokenExists = !!localStorage.getItem('token');
 
-  return <Route {...properties}>{tokenExists && isLoggedIn ? <Redirect to="/" /> : children}</Route>;
+  return (
+    <Route {...properties}>
+      {isLoggedIn ? <Redirect to={{ pathname: '/', state: { referrer: location } }} /> : children}
+    </Route>
+  );
 }
 
 export default PublicRoute;

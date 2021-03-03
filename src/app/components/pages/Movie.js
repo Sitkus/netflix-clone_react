@@ -53,7 +53,7 @@ function Movie() {
         <p className={classes.movieDoesntExist}>Such movie doesn't exist, please try again...</p>
       ) : (
         <>
-          <img className={classes.movieImage} src={currentMovie.image} alt="text" />
+          <img className={classes.movieImage} src={currentMovie.image} alt={`Poster of ${currentMovie.title} movie`} />
           <article className={classes.movieContent}>
             <h2 className={classes.movieTitle}>{currentMovie.title}</h2>
             <p className={classes.movieDescription}>{currentMovie.description}</p>

@@ -12,7 +12,7 @@ function SignIn() {
   const [errorMessage, setErrorMessage] = useState('');
   const [userDetails, setUserDetails] = useState({
     username: '',
-    password: ''
+    password: '',
   });
 
   const checkInputsLength = (e) => {
@@ -32,9 +32,9 @@ function SignIn() {
       const response = await fetch('https://academy-video-api.herokuapp.com/auth/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(userDetails)
+        body: JSON.stringify(userDetails),
       });
       const data = await response.json();
 
@@ -66,7 +66,7 @@ function SignIn() {
     <main className={`${classes.main} ${classes.mainWithForm}`}>
       <form className={classes.form} method="POST" onSubmit={checkInputsLength}>
         <label className={classes.label} htmlFor="username">
-          Username:
+          Username
         </label>
         <input
           autoFocus
@@ -79,7 +79,7 @@ function SignIn() {
         />
 
         <label className={classes.label} htmlFor="password">
-          Password:
+          Password
         </label>
         <input
           className={classes.input}

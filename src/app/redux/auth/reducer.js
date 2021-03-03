@@ -1,7 +1,7 @@
-import { LOGIN, LOGOUT } from './authTypes';
+import { LOGIN, LOGOUT } from './types';
 
 const initialState = {
-  isLoggedIn: false
+  isLoggedIn: !!localStorage.getItem('token') || false,
 };
 
 function authReducer(state = initialState, action) {

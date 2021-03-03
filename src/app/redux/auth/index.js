@@ -1,5 +1,5 @@
-import * as actions from './authActions';
-import * as selectors from './authSelectors';
+import * as actions from './actions';
+import * as selectors from './selectors';
 
 const authModule = { actions, selectors };
 

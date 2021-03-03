@@ -14,11 +14,11 @@ function Routes() {
         <SignIn />
       </PublicRoute>
 
-      <PublicRoute exact={true} path="/sign-up">
+      <PublicRoute exact path="/sign-up">
         <SignUp />
       </PublicRoute>
 
-      <PrivateRoute exact={true} path="/movie/:id">
+      <PrivateRoute exact path="/movie/:id">
         <Movie />
       </PrivateRoute>
 

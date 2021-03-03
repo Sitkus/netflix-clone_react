@@ -1,16 +1,16 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   card: {
-    marginRight: '5px',
+    marginRight: '10px',
     '&:last-child': {
-      marginRight: 0
-    }
+      marginRight: 0,
+    },
   },
   cardImage: {
     height: '30px',
-    width: 'auto'
-  }
+    width: 'auto',
+  },
 }));
 
 export default useStyles;

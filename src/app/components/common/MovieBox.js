@@ -1,25 +1,28 @@
 import useStyles from './MovieBox.style';
 import { Button } from '../helpers';
+import { Link } from 'react-router-dom';
 
-function MovieBox({ title, description, image, favorite, toggleFavorite, clickOnMovie }) {
+function MovieBox({ movie, toggleFavorite }) {
   const classes = useStyles();
 
   return (
-    <li onClick={clickOnMovie} className={classes.movie}>
-      <img className={classes.movieImage} src={image} alt="text" />
-      <article className={classes.movieContent}>
-        <section className={classes.movieInsideTop}>
-          <h2 className={classes.movieTitle}>{title}</h2>
-          <p className={classes.movieDescription}>{description}</p>
-        </section>
+    <li className={classes.movie}>
+      <Link className={classes.movieLink} to={`/movie/${movie.id}`}>
+        <img className={classes.movieImage} src={movie.image} alt="text" />
+        <article className={classes.movieContent}>
+          <section className={classes.movieInsideTop}>
+            <h2 className={classes.movieTitle}>{movie.title}</h2>
+            <p className={classes.movieDescription}>{movie.description}</p>
+          </section>
+        </article>
+      </Link>
 
-        <Button
-          onClick={toggleFavorite}
-          className={`${classes.favoriteButton} ${favorite ? classes.remove : classes.favorite}`}
-        >
-          {favorite ? 'Remove' : 'Favorite'}
-        </Button>
-      </article>
+      <Button
+        onClick={toggleFavorite}
+        className={`${classes.favoriteButton} ${movie.favorite ? classes.remove : classes.favorite}`}
+      >
+        {movie.favorite ? 'Remove' : 'Favorite'}
+      </Button>
     </li>
   );
 }

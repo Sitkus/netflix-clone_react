@@ -1,9 +1,9 @@
-import { FETCH_MOVIES, FETCH_MOVIES_FAILURE, SET_MOVIES, TOGGLE_FAVORITE, SET_FAVORITE_MOVIES } from './moviesTypes';
+import { FETCH_MOVIES, FETCH_MOVIES_FAILURE, SET_MOVIES, TOGGLE_FAVORITE, SET_FAVORITE_MOVIES } from './types';
 
 const initialState = {
-  allMovies: [],
-  favoriteMovies: [],
-  isLoading: false
+  allMovies: JSON.parse(localStorage.getItem('movies')) || [],
+  favoriteMovies: JSON.parse(localStorage.getItem('favorite-movies')) || [],
+  isLoading: false,
 };
 
 function moviesReducer(state = initialState, action) {
